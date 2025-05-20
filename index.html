@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Urdu AI - Shayari & Quotes Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-gradient-start: #1f1f2e;
+      --bg-gradient-end: #3a3a55;
+      --text-color: #e0e0e0;
+      --accent-color: #6c63ff;
+      --button-bg: #6c63ff;
+      --button-hover: #5750d9;
+      --input-bg: #2f2f45;
+      --card-bg: #2f2f45;
+      --shadow-color: rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Noto Nastaliq Urdu', 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 25px 15px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin: 0;
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+
+    .subtext {
+      font-size: 0.9rem;
+      margin: 6px 0 25px 0;
+      color: #bbb;
+      letter-spacing: 0.05em;
+    }
+
+    p {
+      max-width: 400px;
+      margin: 0 auto 20px auto;
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      max-width: 360px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      border-radius: 14px;
+      border: none;
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      box-shadow: 0 2px 8px var(--shadow-color);
+      outline-offset: 3px;
+      outline-color: transparent;
+      transition: outline-color 0.3s ease;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    input[type="text"]:focus {
+      outline-color: var(--accent-color);
+      box-shadow: 0 4px 14px var(--shadow-color);
+    }
+
+    button {
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 12px var(--shadow-color);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin: 6px 8px;
+      min-width: 120px;
+    }
+
+    button:hover {
+      background-color: var(--button-hover);
+      transform: translateY(-3px);
+    }
+
+    #quote {
+      max-width: 380px;
+      background-color: var(--card-bg);
+      padding: 24px 28px;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px var(--shadow-color);
+      font-size: 1.3rem;
+      margin-top: 25px;
+      color: #ddd;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.5;
+      user-select: text;
+      white-space: pre-wrap;
+    }
+
+    .btn-group {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      #quote {
+        font-size: 1.1rem;
+        padding: 18px 20px;
+      }
+
+      button {
+        font-size: 1rem;
+        min-width: 100px;
+        padding: 12px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Urdu AI 🤖</h1>
+  <div class="subtext">Made By SamadAi</div>
+  <p>موضوع درج کریں اور خوبصورت اردو اقوال اور شاعری حاصل کریں!</p>
+
+  <input type="text" id="keyword" placeholder="مثال: دوستی، پیار، یاد" autocomplete="off" />
+
+  <button onclick="generateQuote()">Generate Quote</button>
+
+  <div id="quote">یہاں آپ کا قول ظاہر ہوگا۔</div>
+
+  <div class="btn-group">
+    <button onclick="copyQuote()">📋 Copy</button>
+    <button onclick="shareQuote()">📤 Share</button>
+  </div>
+
+  <script>
+    const samples = {
+      dosti: [
+        "دوستی ایک خوبصورت رشتہ ہے جو دلوں کو جوڑتا ہے۔",
+        "سچے دوست کبھی جدا نہیں ہوتے۔",
+        "دوستی وہ خزانہ ہے جو ہر کسی کو نصیب نہیں ہوتا۔"
+      ],
+      pyaar: [
+        "محبت دلوں کو سکون دیتی ہے۔",
+        "پیار میں وفا ہی سب کچھ ہے۔",
+        "محبت وہ جذبہ ہے جو لفظوں کا محتاج نہیں۔"
+      ],
+      yaad: [
+        "یادیں وہ لمحے ہیں جو دل میں بس جاتے ہیں۔",
+        "کچھ یادیں دل سے کبھی نہیں جاتیں۔",
+        "یاد کرنا بھی ایک محبت ہے۔"
+      ]
+    };
+
+    function generateQuote() {
+      const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+      const quoteBox = document.getElementById('quote');
+      if (samples[keyword]) {
+        const quote = samples[keyword][Math.floor(Math.random() * samples[keyword].length)];
+        quoteBox.textContent = quote;
+      } else if (keyword === '') {
+        quoteBox.textContent = 'براہ مہربانی کوئی موضوع درج کریں۔';
+      } else {
+        quoteBox.textContent = 'معذرت! اس موضوع پر کوئی quote دستیاب نہیں۔';
+      }
+    }
+
+    function copyQuote() {
+      const text = document.getElementById('quote').textContent;
+      if(text && text !== "یہاں آپ کا قول ظاہر ہوگا۔" && text !== "براہ مہربانی کوئی موضوع درج کریں۔" && text !== "معذرت! اس موضوع پر کوئی quote دستیاب نہیں۔") {
+        navigator.clipboard.writeText(text);
+        alert('Quote copied!');
+      } else {
+        alert('کوئی قابلِ کاپی متن نہیں۔');
+      }
+    }
+
+    function shareQuote() {
+      const text = document.getElementById('quote').textContent;
+      if(text && text !== "یہاں آپ کا قول ظاہر ہوگا۔" && text !== "براہ مہربانی کوئی موضوع درج کریں۔" && text !== "معذرت! اس موضوع پر کوئی quote دستیاب نہیں۔") {
+        const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
+      } else {
+        alert('کوئی قابلِ شیئر متن نہیں۔');
+      }
+    }
+  </script>
+</body>
+</html>
