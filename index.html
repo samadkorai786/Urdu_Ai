@@ -5,42 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Urdu AI Caption Generator</title>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: 'Noto Nastaliq Urdu', serif;
       background: linear-gradient(to right, #1f1c2c, #928dab);
       color: white;
-      margin: 0;
-      padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       min-height: 100vh;
+      padding: 1rem;
     }
 
     header {
       text-align: center;
-      padding: 1.5rem;
+      padding: 1rem;
     }
 
     header h1 {
-      margin: 0;
-      font-size: 2rem;
+      margin-bottom: 0.2rem;
+      font-size: 1.8rem;
     }
 
     header p {
-      font-size: 0.9rem;
-      color: #ddd;
+      font-size: 0.85rem;
+      color: #ccc;
     }
 
     .container {
+      width: 100%;
+      max-width: 420px;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(10px);
-      padding: 2rem;
+      padding: 1.5rem;
       border-radius: 16px;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      max-width: 90%;
-      width: 400px;
-      margin-bottom: 2rem;
     }
 
     input[type="text"] {
@@ -71,32 +76,51 @@
 
     .output {
       margin-top: 1.5rem;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       background-color: rgba(255, 255, 255, 0.1);
       padding: 1rem;
       border-radius: 12px;
       position: relative;
+      text-align: center;
     }
 
     .btn-group {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: 1rem;
     }
 
+    .btn-group button {
+      flex: 1 1 48%;
+    }
+
     footer {
-      padding: 1rem;
+      padding: 1rem 0;
       text-align: center;
       font-size: 0.8rem;
       color: #bbb;
+      width: 100%;
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      .output {
+        font-size: 1rem;
+      }
+      input[type="text"], button {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Urdu AI Caption Generator</h1>
-    <p>Made by SamadAi</p>
+    <p> 🦋 Made by SamadAi ❤️ </p>
   </header>
 
   <div class="container">
