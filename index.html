@@ -1,216 +1,194 @@
 <!DOCTYPE html>
 <html lang="ur" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Urdu AI - Shayari & Quotes Generator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Urdu AI Caption Generator</title>
   <style>
-    :root {
-      --bg-gradient-start: #1f1f2e;
-      --bg-gradient-end: #3a3a55;
-      --text-color: #e0e0e0;
-      --accent-color: #6c63ff;
-      --button-bg: #6c63ff;
-      --button-hover: #5750d9;
-      --input-bg: #2f2f45;
-      --card-bg: #2f2f45;
-      --shadow-color: rgba(0, 0, 0, 0.4);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
     body {
+      font-family: 'Noto Nastaliq Urdu', serif;
+      background: linear-gradient(to right, #1f1c2c, #928dab);
+      color: white;
       margin: 0;
-      font-family: 'Noto Nastaliq Urdu', 'Inter', sans-serif;
-      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
-      color: var(--text-color);
+      padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      padding: 25px 15px;
+    }
+
+    header {
       text-align: center;
-      line-height: 1.6;
+      padding: 1.5rem;
     }
 
-    h1 {
-      font-size: 2.8rem;
+    header h1 {
       margin: 0;
-      font-weight: 600;
-      color: var(--accent-color);
+      font-size: 2rem;
     }
 
-    .subtext {
+    header p {
       font-size: 0.9rem;
-      margin: 6px 0 25px 0;
-      color: #bbb;
-      letter-spacing: 0.05em;
+      color: #ddd;
     }
 
-    p {
-      max-width: 400px;
-      margin: 0 auto 20px auto;
-      font-size: 1.1rem;
-      color: #ccc;
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      max-width: 90%;
+      width: 400px;
+      margin-bottom: 2rem;
     }
 
     input[type="text"] {
       width: 100%;
-      max-width: 360px;
-      padding: 14px 16px;
-      font-size: 1rem;
-      border-radius: 14px;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
       border: none;
-      background-color: var(--input-bg);
-      color: var(--text-color);
-      box-shadow: 0 2px 8px var(--shadow-color);
-      outline-offset: 3px;
-      outline-color: transparent;
-      transition: outline-color 0.3s ease;
-      margin-bottom: 18px;
-      font-weight: 500;
-    }
-
-    input[type="text"]:focus {
-      outline-color: var(--accent-color);
-      box-shadow: 0 4px 14px var(--shadow-color);
+      border-radius: 8px;
+      font-size: 1rem;
     }
 
     button {
-      background-color: var(--button-bg);
-      color: white;
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #6a11cb;
+      background-image: linear-gradient(315deg, #6a11cb 0%, #2575fc 74%);
       border: none;
-      padding: 14px 28px;
-      border-radius: 14px;
-      font-size: 1.1rem;
-      font-weight: 600;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
       cursor: pointer;
-      box-shadow: 0 6px 12px var(--shadow-color);
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      margin: 6px 8px;
-      min-width: 120px;
+      margin-top: 0.5rem;
     }
 
     button:hover {
-      background-color: var(--button-hover);
-      transform: translateY(-3px);
+      opacity: 0.9;
     }
 
-    #quote {
-      max-width: 380px;
-      background-color: var(--card-bg);
-      padding: 24px 28px;
-      border-radius: 18px;
-      box-shadow: 0 6px 18px var(--shadow-color);
-      font-size: 1.3rem;
-      margin-top: 25px;
-      color: #ddd;
-      min-height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      line-height: 1.5;
-      user-select: text;
-      white-space: pre-wrap;
+    .output {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 12px;
+      position: relative;
     }
 
     .btn-group {
-      margin-top: 20px;
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 1rem;
     }
 
-    /* Responsive */
-    @media (max-width: 400px) {
-      h1 {
-        font-size: 2.2rem;
-      }
-
-      #quote {
-        font-size: 1.1rem;
-        padding: 18px 20px;
-      }
-
-      button {
-        font-size: 1rem;
-        min-width: 100px;
-        padding: 12px 20px;
-      }
+    footer {
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #bbb;
     }
   </style>
 </head>
 <body>
-  <h1>Urdu AI 🤖</h1>
-  <div class="subtext">Made By SamadAi</div>
-  <p>موضوع درج کریں اور خوبصورت اردو اقوال اور شاعری حاصل کریں!</p>
+  <header>
+    <h1>Urdu AI Caption Generator</h1>
+    <p>Made by SamadAi</p>
+  </header>
 
-  <input type="text" id="keyword" placeholder="مثال: دوستی، پیار، یاد" autocomplete="off" />
-
-  <button onclick="generateQuote()">Generate Quote</button>
-
-  <div id="quote">یہاں آپ کا قول ظاہر ہوگا۔</div>
-
-  <div class="btn-group">
-    <button onclick="copyQuote()">📋 Copy</button>
-    <button onclick="shareQuote()">📤 Share</button>
+  <div class="container">
+    <input type="text" id="moodInput" placeholder="اپنا موڈ لکھیں (مثلاً: دوستی, محبت, مزاح, اداسی)">
+    <button onclick="generateCaption()">❤️  کیپشن جنریٹ کریں</button>
+    <div class="output" id="captionOutput"></div>
+    <div class="btn-group">
+      <button onclick="copyCaption()">📋 کاپی کریں</button>
+      <button onclick="shareCaption()">📤 شیئر کریں</button>
+    </div>
   </div>
 
+  <footer>
+    &copy; 2025 Urdu AI - All Rights Reserved
+  </footer>
+
   <script>
-    const samples = {
-      dosti: [
-        "دوستی ایک خوبصورت رشتہ ہے جو دلوں کو جوڑتا ہے۔",
-        "سچے دوست کبھی جدا نہیں ہوتے۔",
-        "دوستی وہ خزانہ ہے جو ہر کسی کو نصیب نہیں ہوتا۔"
+    const captions = {
+      'دوستی': [
+        'دوستی دلوں کا رشتہ ہوتا ہے جو ہمیشہ قائم رہتا ہے۔',
+        'سچی دوستی قسمت والوں کو نصیب ہوتی ہے۔',
+        'دوستی وہ تحفہ ہے جو وقت کے ساتھ اور قیمتی ہو جاتا ہے۔',
+        'دوستی خوشی میں خوشی اور غم میں سہارا بن جاتی ہے۔',
+        'دوست وہ ہوتا ہے جو بغیر کہے آپ کی آنکھوں میں درد پڑھ لیتا ہے۔',
+        'زندگی کی کتاب میں دوستی ایک سنہری باب ہے۔',
+        'اچھے دوست آئینہ ہوتے ہیں جو سچ دکھاتے ہیں۔',
+        'دوستی وہ رشتہ ہے جو وقت اور فاصلوں سے نہیں ٹوٹتا۔',
+        'دوستی زندگی کی سب سے بڑی نعمت ہے۔',
+        'دوستی ایک نرم مسکراہٹ جیسی ہوتی ہے جو دل کو چھو جاتی ہے۔'
       ],
-      pyaar: [
-        "محبت دلوں کو سکون دیتی ہے۔",
-        "پیار میں وفا ہی سب کچھ ہے۔",
-        "محبت وہ جذبہ ہے جو لفظوں کا محتاج نہیں۔"
+      'محبت': [
+        'محبت وہ جذبہ ہے جو ہر دل میں بس جاتا ہے۔',
+        'محبت قربانی مانگتی ہے، صبر آزماتی ہے۔',
+        'سچی محبت کبھی ہار نہیں مانتی۔',
+        'محبت خاموشی سے دل میں اترتی ہے۔',
+        'محبت میں لفظ کم اور احساس زیادہ ہوتا ہے۔',
+        'محبت وہ روشنی ہے جو اندھیروں کو مٹا دیتی ہے۔',
+        'محبت دعا ہے، صدا ہے، اور وفا ہے۔',
+        'محبت صرف ایک بار نہیں، ہر پل ہوتی ہے۔',
+        'محبت بغیر زبان کے دل سے دل تک پہنچتی ہے۔',
+        'محبت اک نظر سے بھی ہو جاتی ہے۔'
       ],
-      yaad: [
-        "یادیں وہ لمحے ہیں جو دل میں بس جاتے ہیں۔",
-        "کچھ یادیں دل سے کبھی نہیں جاتیں۔",
-        "یاد کرنا بھی ایک محبت ہے۔"
+      'مزاح': [
+        'زندگی سنجیدگی کے ساتھ ساتھ ہنسی کا بھی تقاضا کرتی ہے۔',
+        'ہنسی بہترین دوا ہے، اور سب کو مفت ملتی ہے۔',
+        'دل ہنستا رہے تو غم بھی شرما جاتا ہے۔',
+        'مزاح دل کو تازگی دیتا ہے۔',
+        'خوش رہو، کیونکہ اداسی سے کوئی فاصلہ طے نہیں ہوتا۔',
+        'ہنسی زندگی کا خوبصورت رنگ ہے۔',
+        'مسکراہٹ دوسروں کو خوشی دیتی ہے اور دل کو سکون۔',
+        'ہنسی ایک ایسی زبان ہے جو ہر قوم سمجھتی ہے۔',
+        'جو ہنساتا ہے وہ سب سے بڑا دوست ہے۔',
+        'مسکراہٹ آپ کا خوبصورت زیور ہے۔'
+      ],
+      'اداسی': [
+        'اداسی دل کی وہ زبان ہے جو الفاظ میں بیان نہیں ہوتی۔',
+        'خاموشی کبھی کبھار سب کچھ کہہ دیتی ہے۔',
+        'اداسی بھی ایک خوبصورتی رکھتی ہے۔',
+        'دل کا درد لفظوں میں نہیں آتا۔',
+        'اشک وہ لفظ ہیں جو دل کی زبان ہوتے ہیں۔',
+        'اداس لمحے گہرے سبق دیتے ہیں۔',
+        'کبھی کبھی تنہائی ہی سب سے اچھا ساتھی ہوتی ہے۔',
+        'آنکھوں کی نمی دل کی گہرائی بتاتی ہے۔',
+        'اداسی، زندگی کی وہ پہچان ہے جو خوشی کو خاص بناتی ہے۔',
+        'دکھ بھی ضروری ہے تاکہ خوشی کی قدر ہو۔'
       ]
     };
 
-    function generateQuote() {
-      const keyword = document.getElementById('keyword').value.trim().toLowerCase();
-      const quoteBox = document.getElementById('quote');
-      if (samples[keyword]) {
-        const quote = samples[keyword][Math.floor(Math.random() * samples[keyword].length)];
-        quoteBox.textContent = quote;
-      } else if (keyword === '') {
-        quoteBox.textContent = 'براہ مہربانی کوئی موضوع درج کریں۔';
+    function generateCaption() {
+      const mood = document.getElementById('moodInput').value.trim();
+      const outputDiv = document.getElementById('captionOutput');
+      if (captions[mood]) {
+        const options = captions[mood];
+        const random = options[Math.floor(Math.random() * options.length)];
+        outputDiv.textContent = `"${random}"`;
       } else {
-        quoteBox.textContent = 'معذرت! اس موضوع پر کوئی quote دستیاب نہیں۔';
+        outputDiv.textContent = 'معذرت! اس موڈ پر ہمارے پاس کوئی کیپشن موجود نہیں۔';
       }
     }
 
-    function copyQuote() {
-      const text = document.getElementById('quote').textContent;
-      if(text && text !== "یہاں آپ کا قول ظاہر ہوگا۔" && text !== "براہ مہربانی کوئی موضوع درج کریں۔" && text !== "معذرت! اس موضوع پر کوئی quote دستیاب نہیں۔") {
-        navigator.clipboard.writeText(text);
-        alert('Quote copied!');
-      } else {
-        alert('کوئی قابلِ کاپی متن نہیں۔');
-      }
+    function copyCaption() {
+      const caption = document.getElementById('captionOutput').textContent;
+      if (!caption) return;
+      navigator.clipboard.writeText(caption);
+      alert('کیپشن کاپی ہو گیا ہے!');
     }
 
-    function shareQuote() {
-      const text = document.getElementById('quote').textContent;
-      if(text && text !== "یہاں آپ کا قول ظاہر ہوگا۔" && text !== "براہ مہربانی کوئی موضوع درج کریں۔" && text !== "معذرت! اس موضوع پر کوئی quote دستیاب نہیں۔") {
-        const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-        window.open(url, '_blank');
-      } else {
-        alert('کوئی قابلِ شیئر متن نہیں۔');
-      }
+    function shareCaption() {
+      const caption = document.getElementById('captionOutput').textContent;
+      if (!caption) return;
+      const url = `https://wa.me/?text=${encodeURIComponent(caption)}`;
+      window.open(url, '_blank');
     }
   </script>
 </body>
