@@ -1,221 +1,264 @@
 <!DOCTYPE html>
 <html lang="ur" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Urdu AI Caption Generator</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
       font-family: 'Noto Nastaliq Urdu', serif;
-      background: linear-gradient(to right, #1f1c2c, #928dab);
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #2e2e60, #8e44ad);
       color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 1rem;
-    }
-
-    header {
       text-align: center;
-      padding: 1rem;
-    }
-
-    header h1 {
-      margin-bottom: 0.2rem;
-      font-size: 1.8rem;
-    }
-
-    header p {
-      font-size: 0.85rem;
-      color: #ccc;
     }
 
     .container {
+      padding: 20px;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .top-text {
+      margin-bottom: 10px;
+      padding: 0 10px;
+    }
+
+    .made-by {
+      color: pink;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .caption-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 0 auto;
       width: 100%;
-      max-width: 420px;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      padding: 1.5rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      max-width: 450px;
+      box-sizing: border-box;
     }
 
     input[type="text"] {
       width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1rem;
+      padding: 12px;
+      border-radius: 10px;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
+      font-size: 16px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
     }
 
-    button {
-      width: 100%;
-      padding: 0.8rem;
-      background-color: #6a11cb;
-      background-image: linear-gradient(315deg, #6a11cb 0%, #2575fc 74%);
-      border: none;
-      border-radius: 8px;
+    .generate-button {
+      background: linear-gradient(to right, #4e00c2, #a50082);
       color: white;
-      font-size: 1rem;
+      padding: 14px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
       cursor: pointer;
-      margin-top: 0.5rem;
+      margin-bottom: 15px;
+      box-sizing: border-box;
     }
 
-    button:hover {
-      opacity: 0.9;
-    }
-
-    .output {
-      margin-top: 1.5rem;
-      font-size: 1.1rem;
+    .caption-result {
       background-color: rgba(255, 255, 255, 0.1);
-      padding: 1rem;
-      border-radius: 12px;
-      position: relative;
-      text-align: center;
+      padding: 12px;
+      border-radius: 10px;
+      min-height: 40px;
+      margin-bottom: 15px;
+      font-size: 18px;
     }
 
-    .btn-group {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 1rem;
+    .social-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      text-decoration: none;
+      box-sizing: border-box;
     }
 
-    .btn-group button {
-      flex: 1 1 48%;
+    .whatsapp {
+      background-color: #25D366;
+    }
+
+    .facebook {
+      background-color: #1877F2;
+    }
+
+    .instagram {
+      background: linear-gradient(to right, #f9ce34, #ee2a7b, #6228d7);
     }
 
     footer {
-      padding: 1rem 0;
-      text-align: center;
-      font-size: 0.8rem;
-      color: #bbb;
-      width: 100%;
+      background-color: black;
+      padding: 10px;
+      font-size: 14px;
+      color: white;
+      margin-top: 20px;
     }
 
-    @media (max-width: 480px) {
-      header h1 {
-        font-size: 1.5rem;
+    @media screen and (max-width: 480px) {
+      .caption-box {
+        padding: 15px;
       }
-      .output {
-        font-size: 1rem;
+
+      .generate-button,
+      .social-btn,
+      input[type="text"] {
+        font-size: 16px;
+        padding: 10px;
       }
-      input[type="text"], button {
-        font-size: 0.95rem;
+
+      .made-by {
+        font-size: 16px;
+      }
+
+      .caption-result {
+        font-size: 16px;
       }
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <h1>Urdu AI Caption Generator</h1>
-    <p> 🦋 Made by SamadAi ❤️ </p>
-  </header>
 
   <div class="container">
-    <input type="text" id="moodInput" placeholder="اپنا موڈ لکھیں (مثلاً: دوستی, محبت, مزاح, اداسی)">
-    <button onclick="generateCaption()">❤️  کیپشن جنریٹ کریں</button>
-    <div class="output" id="captionOutput"></div>
-    <div class="btn-group">
-      <button onclick="copyCaption()">📋 کاپی کریں</button>
-      <button onclick="shareCaption()">📤 شیئر کریں</button>
+    <div class="top-text">
+      <h2 class="made-by">🦋Made by SamadAi❤️</h2>
+      <h1>Urdu AI Caption Generator</h1>
+    </div>
+
+    <div class="caption-box">
+      <input type="text" id="moodInput" placeholder="Mood (e.g. Friendship, Love, Funny, Sad)">
+      <button class="generate-button" onclick="generateCaption()">❤️ Generate Captions</button>
+      <div class="caption-result" id="captionResult"></div>
+
+      <a class="social-btn whatsapp" href="#">WhatsApp</a>
+      <a class="social-btn facebook" href="#">Facebook</a>
+      <a class="social-btn instagram" href="#">Instagram</a>
     </div>
   </div>
 
   <footer>
-    &copy; 2025 Urdu AI - All Rights Reserved
+    © Urdu AI - All Rights Reserved 2025
   </footer>
 
   <script>
-    const captions = {
-      'دوستی': [
-        'دوستی دلوں کا رشتہ ہوتا ہے جو ہمیشہ قائم رہتا ہے۔',
-        'سچی دوستی قسمت والوں کو نصیب ہوتی ہے۔',
-        'دوستی وہ تحفہ ہے جو وقت کے ساتھ اور قیمتی ہو جاتا ہے۔',
-        'دوستی خوشی میں خوشی اور غم میں سہارا بن جاتی ہے۔',
-        'دوست وہ ہوتا ہے جو بغیر کہے آپ کی آنکھوں میں درد پڑھ لیتا ہے۔',
-        'زندگی کی کتاب میں دوستی ایک سنہری باب ہے۔',
-        'اچھے دوست آئینہ ہوتے ہیں جو سچ دکھاتے ہیں۔',
-        'دوستی وہ رشتہ ہے جو وقت اور فاصلوں سے نہیں ٹوٹتا۔',
-        'دوستی زندگی کی سب سے بڑی نعمت ہے۔',
-        'دوستی ایک نرم مسکراہٹ جیسی ہوتی ہے جو دل کو چھو جاتی ہے۔'
+    const poetry = {
+      friendship: [
+        "دوستی ہر دل کا سکون ہوتی ہے",
+        "دوست وہ روشنی ہیں جو کبھی بجھتی نہیں",
+        "تیرا ساتھ ہے زندگی کی روشنی",
+        "دوستی اک خزانہ ہے بے حد قیمتی",
+        "دوستوں کے بنا زندگی سنسان ہے",
+        "یادوں کا جو سفر ہے، دوستوں کے سنگ ہے",
+        "تم دوست ہو میرے دل کے قریب",
+        "وفا کی پہچان ہے دوستی",
+        "دوستوں کے بغیر محفل ادھوری ہے",
+        "تمھاری مسکراہٹ دوستی کا انعام ہے",
+        "دوستی کا رنگ کبھی پھیکا نہیں پڑتا",
+        "دلوں کے رشتے دوستی سے بنتے ہیں",
+        "دوستی وہ تحفہ ہے جو نصیب سے ملتا ہے",
+        "دوست غم کے وقت کا سہارا ہوتے ہیں",
+        "دل لگانے کے بعد دلدار دوست بنتے ہیں",
+        "زندگی کو خوبصورت بناتے ہیں دوست",
+        "دوست وہ نعمت ہیں جن کا نعم البدل نہیں",
+        "دوستی سے بڑھ کر کوئی محبت نہیں",
+        "دوستوں کی باتوں میں خوشبو ہوتی ہے",
+        "دوستی کے بغیر کوئی جشن مکمل نہیں"
       ],
-      'محبت': [
-        'محبت وہ جذبہ ہے جو ہر دل میں بس جاتا ہے۔',
-        'محبت قربانی مانگتی ہے، صبر آزماتی ہے۔',
-        'سچی محبت کبھی ہار نہیں مانتی۔',
-        'محبت خاموشی سے دل میں اترتی ہے۔',
-        'محبت میں لفظ کم اور احساس زیادہ ہوتا ہے۔',
-        'محبت وہ روشنی ہے جو اندھیروں کو مٹا دیتی ہے۔',
-        'محبت دعا ہے، صدا ہے، اور وفا ہے۔',
-        'محبت صرف ایک بار نہیں، ہر پل ہوتی ہے۔',
-        'محبت بغیر زبان کے دل سے دل تک پہنچتی ہے۔',
-        'محبت اک نظر سے بھی ہو جاتی ہے۔'
+      love: [
+        "محبت ایک خواب ہے جو حقیقت بنتی ہے",
+        "تیری یادوں کا سہارا ہے محبت",
+        "تم میری دعا ہو، تم محبت کی انتہا ہو",
+        "محبت میں صبر لازم ہے",
+        "پیار وہ جذبہ ہے جو لفظوں میں نہیں سماتا",
+        "محبت لبوں کی نہیں، دل کی پکار ہوتی ہے",
+        "تیرا ساتھ ہے تو زندگی حسین ہے",
+        "تم بنے ہو میرے دل کے خدا",
+        "میرے دل کا سکون ہو تم",
+        "محبت کا رنگ کبھی مدھم نہیں ہوتا",
+        "تم ہو تو ہر لمحہ خاص ہے",
+        "دل صرف تمہارا ہی نام لیتا ہے",
+        "میری خاموشی بھی تمہیں پکارتی ہے",
+        "محبت دل سے ہوتی ہے نہ کہ نظر سے",
+        "میرے دل کی دنیا تم سے ہے",
+        "تم ہو تو سب کچھ ہے",
+        "تجھے پا لینا ہی میری دنیا ہے",
+        "عشق وہ خواب ہے جو جاگتے دیکھا جاتا ہے",
+        "تم مل جاؤ تو ہر دکھ دور ہو جائے",
+        "تمہاری ہنسی میری دنیا ہے"
       ],
-      'مزاح': [
-        'زندگی سنجیدگی کے ساتھ ساتھ ہنسی کا بھی تقاضا کرتی ہے۔',
-        'ہنسی بہترین دوا ہے، اور سب کو مفت ملتی ہے۔',
-        'دل ہنستا رہے تو غم بھی شرما جاتا ہے۔',
-        'مزاح دل کو تازگی دیتا ہے۔',
-        'خوش رہو، کیونکہ اداسی سے کوئی فاصلہ طے نہیں ہوتا۔',
-        'ہنسی زندگی کا خوبصورت رنگ ہے۔',
-        'مسکراہٹ دوسروں کو خوشی دیتی ہے اور دل کو سکون۔',
-        'ہنسی ایک ایسی زبان ہے جو ہر قوم سمجھتی ہے۔',
-        'جو ہنساتا ہے وہ سب سے بڑا دوست ہے۔',
-        'مسکراہٹ آپ کا خوبصورت زیور ہے۔'
+      funny: [
+        "ہنسی مفت ہے، لیکن کچھ لوگ افورڈ نہیں کر سکتے",
+        "مسکراؤ! آپ کا موڈ اپ ڈیٹ ہو جائے گا",
+        "دل بڑا کرو، چہرہ نہیں",
+        "آج کا مشورہ: سونا بہترین حل ہے ہر مسئلے کا",
+        "زندگی چھوٹی ہے، چائے پی لو",
+        "پریشان مت ہو، کل بھی کچھ نہیں ہوگا",
+        "میرے دماغ کی چھٹی ہے آج",
+        "کامیابی کے پیچھے مت بھاگو، چائے پیو سکون سے",
+        "دنیا گول ہے، مذاق بھی واپس آتا ہے",
+        "جو ہنستا ہے وہ پھنستا ہے",
+        "ہنسی روکنے کی کوشش ناکام ہو چکی ہے",
+        "مفت کے مشورے، اور ہنسی سب کو پسند ہیں",
+        "جب تک ہنسی ہے، زندگی ہے",
+        "آج بھی نیند اور میں ساتھ ساتھ تھے",
+        "دل لگاؤ چائے سے، دھوکہ کم ہوگا",
+        "ہنسی بانٹنا سنت ہے، لے لو مفت میں",
+        "جب کچھ سمجھ نہ آئے، سوجاؤ",
+        "سوچ سمجھ کر سونا، خواب بھی دیکھنے ہوتے ہیں",
+        "ڈرامے میں مزہ تب آتا ہے جب دوست ساتھ ہوں",
+        "خوش رہنے کا فارمولا: مذاق، ہنسی، نیند"
       ],
-      'اداسی': [
-        'اداسی دل کی وہ زبان ہے جو الفاظ میں بیان نہیں ہوتی۔',
-        'خاموشی کبھی کبھار سب کچھ کہہ دیتی ہے۔',
-        'اداسی بھی ایک خوبصورتی رکھتی ہے۔',
-        'دل کا درد لفظوں میں نہیں آتا۔',
-        'اشک وہ لفظ ہیں جو دل کی زبان ہوتے ہیں۔',
-        'اداس لمحے گہرے سبق دیتے ہیں۔',
-        'کبھی کبھی تنہائی ہی سب سے اچھا ساتھی ہوتی ہے۔',
-        'آنکھوں کی نمی دل کی گہرائی بتاتی ہے۔',
-        'اداسی، زندگی کی وہ پہچان ہے جو خوشی کو خاص بناتی ہے۔',
-        'دکھ بھی ضروری ہے تاکہ خوشی کی قدر ہو۔'
+      sad: [
+        "دل اداس ہے اور چپ بھی بہت",
+        "خاموشی بھی اب رونے لگی ہے",
+        "یادیں وہ زخم ہیں جو کبھی نہیں بھرتے",
+        "اداسی میں بھی تیرا چہرہ یاد آتا ہے",
+        "تنہائی کا دکھ لفظوں میں نہیں",
+        "غم دل کا ہوتا ہے، چہرہ نہیں بتاتا",
+        "خاموشیوں میں چھپا دکھ بہت ہوتا ہے",
+        "میرے آنسو گواہ ہیں تیرے فریب کے",
+        "تمھاری یادیں چین نہیں لینے دیتیں",
+        "دل ٹوٹا ہے پر مسکراہٹ باقی ہے",
+        "ہر درد کی دوا تم تھے، اب درد ہی رہ گیا",
+        "تقدیر میں جدائی تھی، تم نہیں",
+        "آج بھی خواب تمھارے آتے ہیں",
+        "اداس لمحے زندگی کا حصہ بن گئے",
+        "تم گئے اور دل خالی ہو گیا",
+        "غم چھپانے کے فن میں ماہر ہو چکا ہوں",
+        "پیار تم سے کیا، سزا زندگی بھر ملی",
+        "اب تو اشک بھی چھپ کر بہتے ہیں",
+        "تمھاری یاد میری اداسی کا عنوان ہے",
+        "محبت کی کہانی اب صرف اداسی ہے"
       ]
     };
 
     function generateCaption() {
-      const mood = document.getElementById('moodInput').value.trim();
-      const outputDiv = document.getElementById('captionOutput');
-      if (captions[mood]) {
-        const options = captions[mood];
-        const random = options[Math.floor(Math.random() * options.length)];
-        outputDiv.textContent = `"${random}"`;
+      const moodInput = document.getElementById("moodInput").value.toLowerCase();
+      const resultBox = document.getElementById("captionResult");
+      const list = poetry[moodInput];
+      if (list) {
+        const randomIndex = Math.floor(Math.random() * list.length);
+        resultBox.innerText = list[randomIndex];
       } else {
-        outputDiv.textContent = 'معذرت! اس موڈ پر ہمارے پاس کوئی کیپشن موجود نہیں۔';
+        resultBox.innerText = "براہ کرم صحیح موڈ درج کریں: Friendship, Love, Funny, Sad";
       }
     }
-
-    function copyCaption() {
-      const caption = document.getElementById('captionOutput').textContent;
-      if (!caption) return;
-      navigator.clipboard.writeText(caption);
-      alert('کیپشن کاپی ہو گیا ہے!');
-    }
-
-    function shareCaption() {
-      const caption = document.getElementById('captionOutput').textContent;
-      if (!caption) return;
-      const url = `https://wa.me/?text=${encodeURIComponent(caption)}`;
-      window.open(url, '_blank');
-    }
   </script>
+
 </body>
+
 </html>
 <script type="text/javascript">
 	atOptions = {
