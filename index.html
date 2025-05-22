@@ -141,10 +141,9 @@
       <button class="generate-button" onclick="generateCaption()">❤️ Generate Captions</button>
       <div class="caption-result" id="captionResult"></div>
 
-      <a class="social-btn whatsapp" href="#">WhatsApp</a>
-      <a class="social-btn facebook" href="#">Facebook</a>
-      <a class="social-btn instagram" href="#">Instagram</a>
-    </div>
+      <a class="social-btn whatsapp" href="#" onclick="shareToWhatsApp()">WhatsApp</a>
+<a class="social-btn facebook" href="#" onclick="shareToFacebook()">Facebook</a>
+<a class="social-btn instagram" href="#" onclick="shareToInstagram()">Instagram</a>
   </div>
 
   <footer>
@@ -254,6 +253,25 @@
         resultBox.innerText = "براہ کرم صحیح موڈ درج کریں: Friendship, Love, Funny, Sad";
       }
     }
+
+function getCaption() {
+      return document.getElementById("captionResult").innerText;
+    }
+
+    function shareToWhatsApp() {
+      const text = encodeURIComponent(getCaption());
+      const url = `https://wa.me/?text=${text}`;
+      window.open(url, "_blank");
+    }
+
+    function shareToFacebook() {
+      const text = encodeURIComponent(getCaption());
+      const url = `https://www.facebook.com/sharer/sharer.php?u=&quote=${text}`;
+      window.open(url, "_blank");
+    }
+function shareToInstagram() {
+  alert("💔 Instagram can't Copy Or Share. Please copy the text manually and post on Instagram.");
+}
   </script>
 </body>
 </html>
